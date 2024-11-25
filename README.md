@@ -3,11 +3,12 @@
 ## Overview (Draft)
 toolsMLE is an R package for computing Maximum Likelihood Estimates (MLE) for common probability distributions. 
 
-### Team Members
+### Team Members (Alphabetize by Name)
 - Bruce Liu
+- Hanlong Chen
 - Sze Wei Wang
 - Yanyao Gu
-- Hanlong Chen
+
 
 ### Course
 CHL8010: Statistical Programming and Computation for Health Data    
