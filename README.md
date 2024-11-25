@@ -10,7 +10,7 @@ toolsMLE is an R package for computing Maximum Likelihood Estimates (MLE) for co
 - Hanlong Chen
 
 ### Course
-CHL8010: Statistical Programming and Computation for Health Data course.  
+CHL8010: Statistical Programming and Computation for Health Data    
 
 ### Instructor
 Dr. Aya Mitani  
