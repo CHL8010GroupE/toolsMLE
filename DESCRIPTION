@@ -1,11 +1,19 @@
 Package: toolsMLE
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Maximum Likelihood Estimation for Common Probability Distributions
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Authors@R: c(
+    person("Bruce", "Liu", email = "first.last@example.com", role = c("aut", "cre")),
+    person("Sze Wei", "Wang", email = "first.last@example.com", role = "aut"),
+    person("Yanyao", "Gu", email = "first.last@example.com", role = "aut"),
+    person("Hanlong", "Chen", email = "first.last@example.com", role = "aut")
+    )
+Description: This package provides functions for estimating parameters using Maximum 
+    Likelihood Estimation (MLE) for various probability distributions including 
+    Binomial, Exponential, Gaussian, and Poisson. It includes visualization tools 
+    for likelihood intervals and parameter estimation diagnostics. Developed as part 
+    of CHL8010: Statistical Programming and Computation for Health Data under the 
+    supervision of Dr. Aya Mitani.
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true

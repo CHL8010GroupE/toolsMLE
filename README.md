@@ -1,15 +1,35 @@
-# Info
-Team member: Bruce Liu, Sze Wei Wang, Yanyao Gu, Hanlong Chen. <br>
-CHL8010: Statistical Programming and Computation for Health Data. <br>
-Instructor: Dr. Aya Mitani.<br>
+# toolsMLE
 
-This package is designed to estimate the parameters from the Maximum Likelihood of different distributions including: <br>
-- Binomial <br>
-- Exponential <br>
-- Gaussian <br>
-- Poisson <be>
+## Overview
+toolsMLE is an R package for computing Maximum Likelihood Estimates (MLE) for common probability distributions. 
 
+### Team Members
+- Bruce Liu
+- Sze Wei Wang
+- Yanyao Gu
+- Hanlong Chen
 
-Expected Goal (Draft):
-This package provides functions for estimating Maximum Likelihood Estimates (MLE) for various statistical distributions. Users can easily obtain MLE values for parameters by specifying the distribution and inputting their dataset. Additionally, the package includes functions for related visualizations, such as likelihood intervals, to aid in understanding the estimation process.
+### Course
+CHL8010: Statistical Programming and Computation for Health Data course.  
 
+### Instructor
+Dr. Aya Mitani  
+
+## Installation
+You can install the development version from GitHub with:
+```r
+# install.packages("devtools")
+devtools::install_github("CHL8010GroupE/toolsMLE")
+```
+
+## Features
+The package provides MLE functions for:
+- Binomial distribution
+- Exponential distribution
+- Gaussian distribution
+- Poisson distribution
+
+Each function returns parameter estimates and likelihood-based confidence intervals.
+
+## License
+This project is licensed under the MIT License.
