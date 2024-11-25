@@ -1,6 +1,6 @@
 # toolsMLE
 
-## Overview
+## Overview (Draft)
 toolsMLE is an R package for computing Maximum Likelihood Estimates (MLE) for common probability distributions. 
 
 ### Team Members
@@ -29,7 +29,7 @@ The package provides MLE functions for:
 - Gaussian distribution
 - Poisson distribution
 
-Each function returns parameter estimates and likelihood-based confidence intervals.
+Each function returns parameter estimates from given datasets, and relative visualizations for interpretations, such as likelihood intervals, plots; to aid in understanding the estimation process.
 
 ## License
 This project is licensed under the MIT License.
