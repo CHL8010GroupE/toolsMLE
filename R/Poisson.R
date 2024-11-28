@@ -1,5 +1,12 @@
 # MLE functions for Poisson distribution
 
+# likelihood function
+poisl <- function(lambda, x){
+  if(lambda<=0){stop("Lambda must be greater than 0.")}
+  if(any(x<0)){stop("There is at least one negative value in the dataset.")}
+  prod((lambda^x * exp(-lambda)) / factorial(x))
+}
+
 # log likelihood function
 poisll <- function(lambda, x){
   if(lambda<=0){stop("Lambda must be greater than 0.")}
@@ -7,6 +14,11 @@ poisll <- function(lambda, x){
   n <- length(x)
   sum_x <- sum(x)
   sum_x * log(lambda) - n * lambda - sum(lfactorial(x))
+}
+
+# function to find MLE
+poisMLE <- function(x){
+  optimize(poisll,c(min(x),max(x)),x=x,maximum = TRUE)
 }
 
 # Score function
