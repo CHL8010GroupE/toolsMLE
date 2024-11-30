@@ -1,65 +1,124 @@
-# MLE for Exponential Distribution
-# Example of data: c(1.2, 2.4, 0.8, 1.5, 3.6), a vector that records observed data
+# MLE functions for Exponential Distribution
 
-# Exponential log-likelihood function
-MLE.expll <- function(lambda, data) {
+# Likelihood function
+expl <- function(lambda, x) {
   if (lambda <= 0) {
-    stop("Lambda must be greater than 0")
+    stop("Lambda must be greater than 0.")
   }
-  
-  log_likelihood <- sum(log(lambda) - lambda * data)
-  return(log_likelihood)
-}
-
-# Find the optimal MLE function
-MLE.exponential <- function(data) {
-  optimize(MLE.expll, c(1e-10, 1e10), data = data, maximum = TRUE)
-}
-
-# Likelihood Ratio Test
-MLE.exponentialLRT <- function(data, lambda_test) {
-  if (lambda_test <= 0) {
-    stop("lambda_test must be greater than 0")
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
   }
-  
-  # Log-likelihood under null hypothesis (fixed lambda_test)
-  log_test <- MLE.expll(lambda_test, data)
-  
-  # Log-likelihood under alternative hypothesis (MLE of lambda)
-  estimated_parameter <- MLE.exponential(data)
-  log_alter <- estimated_parameter$objective
-  
-  # Likelihood ratio statistic
-  lR_statistic <- 2 * (log_alter - log_test)
-  
-  # Assume degree of freedom is 1
-  p_value <- pchisq(lR_statistic, df = 1, lower.tail = FALSE)
-  
-  return(p_value)
+  prod(lambda * exp(-lambda * x))
 }
 
-# Goodness of Fit Test
-MLE.exponentialGOF <- function(data) {
-  # Estimate lambda using MLE
-  loglikelihood <- MLE.exponential(data)
-  lambda_hat <- loglikelihood$maximum
-  
-  # Divide data into bins for chi-square test
-  observed_frequency <- table(cut(data, breaks = "Sturges", include.lowest = TRUE))
-  observed_frequency <- as.numeric(observed_frequency)
-  
-  # Calculate expected frequencies
-  breaks <- seq(min(data), max(data), length.out = length(observed_frequency) + 1)
-  expected <- diff(pexp(breaks, rate = lambda_hat)) * length(data)
-  
-  # Chi-square statistic
-  chi_square <- sum((observed_frequency - expected)^2 / expected)
-  
-  # Degrees of freedom = number of bins - 1 - number of estimated parameters (1 for lambda)
-  df <- length(observed_frequency) - 1 - 1
-  
-  p_value <- pchisq(chi_square, df = df, lower.tail = FALSE)
-  
-  return(p_value)
+# Log likelihood function
+expll <- function(lambda, x) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  n <- length(x)
+  sum_x <- sum(x)
+  n * log(lambda) - lambda * sum_x
 }
 
+# Function to find MLE
+expMLE <- function(x) {
+  optimize(expll, c(1e-10, 1e10), x = x, maximum = TRUE)
+}
+
+# Score function
+expS <- function(lambda, x) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  sum_x <- sum(x)
+  n <- length(x)
+  n / lambda - sum_x
+}
+
+# Information function
+expI <- function(lambda, x) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  n <- length(x)
+  n / lambda^2
+}
+
+# Relative log likelihood function
+exprll <- function(lambda, lambdahat, x) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (lambdahat <= 0) {
+    stop("Lambdahat must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  expll(lambda, x) - expll(lambdahat, x)
+}
+
+# Function for likelihood intervals
+expLI <- function(lambdahat, x, p) {
+  if (lambdahat <= 0) {
+    stop("Lambdahat must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  expLIc <- function(lambda, lambdahat, x, p) {
+    exprll(lambda, lambdahat, x) - log(p)
+  }
+  lower <- uniroot(expLIc, c(1e-10, lambdahat), lambdahat = lambdahat, x = x, p = p)$root
+  upper <- uniroot(expLIc, c(lambdahat, lambdahat * 1e10), lambdahat = lambdahat, x = x, p = p)$root
+  return(c(lower, upper))
+}
+
+# Likelihood ratio statistic
+expD <- function(lambda, lambdahat, x) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (lambdahat <= 0) {
+    stop("Lambdahat must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  -2 * exprll(lambda, lambdahat, x)
+}
+
+# Confidence interval based on likelihood ratio statistic
+expDci <- function(lambda, lambdahat, x, conf) {
+  if (lambda <= 0) {
+    stop("Lambda must be greater than 0.")
+  }
+  if (lambdahat <= 0) {
+    stop("Lambdahat must be greater than 0.")
+  }
+  if (any(x < 0)) {
+    stop("There is at least one negative value in the dataset.")
+  }
+  -2 * exprll(lambda, lambdahat, x) - qchisq(conf, df = 1)
+}
+
+# Example usage
+x <- c(1.2, 2.4, 0.8, 1.5, 3.6)
+
+# Find MLE for lambda
+mle_result <- expMLE(x)
+cat("MLE of lambda:", mle_result$maximum, "\n")
+
+# Likelihood interval
+likelihood_interval <- expLI(mle_result$maximum, x, p = 0.95)
+cat("Likelihood interval for lambda:", likelihood_interval, "\n")
