@@ -1,0 +1,70 @@
+---
+title: "Untitled"
+format: html
+editor: visual
+---
+
+# Algorithm for MLE in Normal Distribution (Gaussian Distribution)
+
+To implement the Maximum Likelihood Estimation (MLE) for the Gaussian distribution, we can derive the estimates of the parameters (mean μ and standard deviation σ) from the given data.
+
+### Step 1: Define the Likelihood Function
+
+For a dataset `X = (x1, x2, ..., xn)` sampled from a Gaussian distribution, the likelihood function for the parameters μ and σ is given by: 
+
+$$ L(μ, σ; X) = \prod_{i=1}^{n} \frac{1}{σ \sqrt{2\pi}} \exp\left( -\frac{(x_i - μ)^2}{2σ^2} \right) $$
+
+### Step 2: Define the Log-Likelihood Function
+
+It is often easier to work with the log-likelihood instead of the likelihood itself due to computational reasons (products become sums). The log-likelihood function is:
+
+$$ \ell(μ, σ; X) = -n \log(σ \sqrt{2\pi}) - \frac{1}{2σ^2} \sum_{i=1}^{n} (x_i - μ)^2 $$
+
+### Step 3: Derive MLE Equations
+
+To find the estimates of μ and σ, take partial derivatives of the log-likelihood function with respect to μ and σ, and set them to zero.
+
+**Partial Derivative with respect to μ:** 
+
+$$ \frac{\partial \ell}{\partial μ} = \frac{1}{σ^2} \sum_{i=1}^{n} (x_i - μ) = 0  $$
+
+Solving for μ, we get: 
+
+$$\hat{μ} = \frac{1}{n} \sum_{i=1}^{n} x_i  $$
+
+This means that the MLE for μ is the sample mean.
+
+**Partial Derivative with respect to σ:
+
+$$ \frac{\partial \ell}{\partial σ} = -\frac{n}{σ} + \frac{1}{σ^3} \sum_{i=1}^{n} (x_i - μ)^2 = 0 $$
+
+Solving for σ, we get: 
+
+$$\hat{σ} = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (x_i - μ)^2} $$
+
+This means that the MLE for σ is the square root of the average squared deviation from the mean.
+
+### Step 4: Implementing the MLE in R
+
+Here is a function to compute the MLE for the Gaussian distribution in R:
+
+``` r
+mle_gaussian <- function(data) {
+  n <- length(data)
+  mu_hat <- mean(data)
+  sigma_hat <- sqrt(sum((data - mu_hat)^2) / n)
+  
+  return(list(mean = mu_hat, sd = sigma_hat))
+}
+```
+
+### Step 5: Visualization (Optional)
+
+To aid interpretation, you can create visualizations to represent the likelihood function and parameter estimates. For example, you could plot the likelihood surface over a range of values for μ and σ, or add confidence intervals.
+
+\`\`\`r library(ggplot2)
+
+visualize_gaussian_mle \<- function(data) { est \<- mle_gaussian(data) mu_hat \<- est$mean
+  sigma_hat <- est$sd
+
+ggplot(data.frame(x = data), aes(x = x)) + geom_histogram(aes(y = ..density..), binwidth = 0.5, fill = "lightblue", color = "black") + stat_function(fun = dnorm, args = list(mean = mu_hat, sd = sigma_hat), color = "red", size = 1) + labs(title = "Gaussian MLE Fit", x = "Data", y = "Density") }
