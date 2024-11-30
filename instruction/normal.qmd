@@ -57,3 +57,13 @@ mle_gaussian <- function(x) {
   return(list(mean = mu_hat, sigma = sigma_hat))
 }
 ```
+
+### Step 5: Likelihood Ratio Function Explained
+
+The likelihood ratio tests compare two different models: one that is more general (allowing more variability in parameters) and one that is more restricted. To compute the likelihood ratio for our Gaussian model, we need to compare how well different values of $\hat\mu$ and $\hat\sigma^2$ fit the data compared to the estimated values ($\hat\mu$ and $\hat\sigma^2$).
+
+Here is a step-by-step implementation:
+
+1.  **Define the Likelihood Function**: The likelihood function has already been defined as `normll`, which calculates the log-likelihood of a normal distribution given $\hat\mu$, $\hat\sigma^2$, and data x.
+
+2.  **Likelihood Ratio Calculation**: The likelihood ratio is calculated as the difference between the log-likelihood of given parameters ($\hat\mu$, $\hat\sigma^2$) and the log-likelihood at the MLE estimates ($\hat\mu$, $\hat\sigma^2$). The likelihood ratio helps in comparing how well different parameter values fit compared to the best-fit values.

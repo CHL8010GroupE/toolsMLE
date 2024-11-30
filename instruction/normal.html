@@ -165,6 +165,15 @@ window.Quarto = {
 <span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>}</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
+<section id="step-5-likelihood-ratio-function-explained" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-likelihood-ratio-function-explained">Step 5: Likelihood Ratio Function Explained</h3>
+<p>The likelihood ratio tests compare two different models: one that is more general (allowing more variability in parameters) and one that is more restricted. To compute the likelihood ratio for our Gaussian model, we need to compare how well different values of <span class="math inline">\(\hat\mu\)</span> and <span class="math inline">\(\hat\sigma^2\)</span> fit the data compared to the estimated values (<span class="math inline">\(\hat\mu\)</span> and <span class="math inline">\(\hat\sigma^2\)</span>).</p>
+<p>Here is a step-by-step implementation:</p>
+<ol type="1">
+<li><p><strong>Define the Likelihood Function</strong>: The likelihood function has already been defined as <code>normll</code>, which calculates the log-likelihood of a normal distribution given <span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\sigma^2\)</span>, and data x.</p></li>
+<li><p><strong>Likelihood Ratio Calculation</strong>: The likelihood ratio is calculated as the difference between the log-likelihood of given parameters (<span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\sigma^2\)</span>) and the log-likelihood at the MLE estimates (<span class="math inline">\(\hat\mu\)</span>, <span class="math inline">\(\hat\sigma^2\)</span>). The likelihood ratio helps in comparing how well different parameter values fit compared to the best-fit values.</p></li>
+</ol>
+</section>
 </section>
 
 </main>
