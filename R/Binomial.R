@@ -16,6 +16,9 @@ MLE.binoll <- function(p, data, trials){
   if (p < 0 || p > 1) {
     stop("p must be within (0, 1)")
   }
+  if (any(data > trials)){
+    stop("trials must be greater or equal than data")
+  }
 
   binomial_log <- lfactorial(trials) - lfactorial(data) - lfactorial(trials - data)
   sum(data * log(p) + (trials - data) * log(1 - p) + binomial_log)
@@ -24,8 +27,12 @@ MLE.binoll <- function(p, data, trials){
 
 # find the optimal MLE function
 MLE.binomial <- function(data, trials) {
+  if (any(data > trials)) {
+    stop("trials must be greater or equal than data")
+  }
   optimize(MLE.binoll, c(1e-10, 1 - 1e-10), data = data, trials = trials, maximum = TRUE)
 }
+
 
 # Score Function
 MLE.binomialS <-function(p, data, trials){
@@ -49,9 +56,9 @@ MLE.binomialLI <- function(data, trials, alpha){
   MLE.binomialLIc <- function(data, trials, p, phat, alpha){
     MLE.binomialrll(p, phat, data, trials) - log(1 - alpha)
   }
-  lower <- uniroot(MLE.binomialLIc, interval = c(1e-10, estimated), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+  lower <- uniroot(MLE.binomialLIc, c(1e-10, estimated), phat = estimated, data = data, trials = trials, alpha = alpha)$root
 
-  upper <- uniroot(MLE.binomialLIc, interval = c(estimated, 1 - 1e-10), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+  upper <- uniroot(MLE.binomialLIc, c(estimated, 1 - 1e-10), phat = estimated, data = data, trials = trials, alpha = alpha)$root
 
   c(lower = lower, upper = upper)
 }
@@ -61,6 +68,7 @@ MLE.binomialD <- function(data, trials, p_test){
   if (p_test < 0 || p_test > 1){
     stop("p-test must be within (0, 1)")
   }
+
   # generate log likelihood for null, p_test
   log_test <- MLE.binoll(p_test, data, trials)
 
@@ -82,15 +90,31 @@ MLE.binomialD <- function(data, trials, p_test){
 
 
 # confidence interval based on likelihood ratio statistic
-MLE.binomialDci <- function(ptest, data, trials, conf){
-  # To do
+MLE.binomialDci <- function(data, trials, alpha){
+  estimated <- MLE.binomial(data, trials)$maximum
+  MLE.binomialLIc <- function(data, trials, p, phat, alpha){
+    MLE.binomialrll(p, phat, data, trials) + qchisq(1 - alpha, 1) / 2
+  }
+  lower <- uniroot(MLE.binomialLIc, c(1e-10, estimated), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+
+  upper <- uniroot(MLE.binomialLIc, c(estimated, 1 - 1e-10), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+
+  c(lower = lower, upper = upper)
 }
 
 # Goodness of fit test: test whether data follows a binomial distribution, print p-value
 MLE.binomialGOF <- function(data, trials){
+  # notice that this only allows the fixed trials
   # Check for valid input
   if (any(data > trials)) {
     stop("Data values cannot exceed the number of trials.")
+  }
+
+  if (all(data == trials)) {
+    return(1) # Perfect fit
+  }
+  if (all(data == 0)) {
+    return(1) # Perfect fit
   }
 
   # estimate p
