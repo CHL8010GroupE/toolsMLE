@@ -113,12 +113,12 @@ expDci <- function(lambda, lambdahat, x, conf) {
 }
 
 # Example usage
-x <- c(1.2, 2.4, 0.8, 1.5, 3.6)
+# x <- c(1.2, 2.4, 0.8, 1.5, 3.6)
 
 # Find MLE for lambda
-mle_result <- expMLE(x)
-cat("MLE of lambda:", mle_result$maximum, "\n")
+# mle_result <- expMLE(x)
+# cat("MLE of lambda:", mle_result$maximum, "\n")
 
 # Likelihood interval
-likelihood_interval <- expLI(mle_result$maximum, x, p = 0.95)
-cat("Likelihood interval for lambda:", likelihood_interval, "\n")
+# likelihood_interval <- expLI(mle_result$maximum, x, p = 0.95)
+# cat("Likelihood interval for lambda:", likelihood_interval, "\n")
