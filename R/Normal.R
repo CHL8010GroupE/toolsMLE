@@ -1,6 +1,16 @@
 set.seed(123)
 x <- rnorm(100, mean = 5, sd = 2)
 n <- length(x)
+
+#likelihood
+norml <- function(mu, sigma2, x) {
+  if (sigma2 <= 0) {
+    stop("Variance (sigma2) must be greater than 0.")
+  }
+  n <- length(x)
+  prod((1 / sqrt(2 * pi * sigma2)) * exp(-((x - mu)^2) / (2 * sigma2)))
+}
+
 #Log-likelihood for normal distribution.
 normll <- function(mu, sigma2, x) {
   n <- length(x)
