@@ -16,11 +16,6 @@ poisll <- function(lambda, x){
   sum_x * log(lambda) - n * lambda - sum(lfactorial(x))
 }
 
-# function to find MLE
-poisMLE <- function(x){
-  optimize(poisll,c(min(x),max(x)),x=x,maximum = TRUE)
-}
-
 # Score function
 poisS <- function(lambda, x){
   if(lambda<=0){stop("Lambda must be greater than 0.")}
@@ -28,6 +23,11 @@ poisS <- function(lambda, x){
   sum_x <- sum(x)
   n <- length(x)
   sum_x / lambda - n
+}
+
+# function to find MLE
+poisMLE <- function(x){
+  uniroot(poisS,c(0.000001,max(x)),x=x)
 }
 
 # Information function
