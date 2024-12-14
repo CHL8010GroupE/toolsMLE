@@ -26,7 +26,19 @@ likelihood_ratio <- function(mu, sigma2, mu_hat, sigma2_hat, x) {
   return(ratio)
 }
 
+#Confidence interval
+confidence_interval <- function(x, alpha = 0.05) {
+  n <- length(x)
+  mu_hat <- mean(x)
+  sigma_hat <- sqrt(sum((x - mu_hat)^2) / n)
+  z <- qnorm(1 - alpha / 2)
 
+  mu_ci <- c(mu_hat - z * sigma_hat / sqrt(n), mu_hat + z * sigma_hat / sqrt(n))
+  sigma_ci <- c(sigma_hat * sqrt((n - 1) / qchisq(1 - alpha / 2, df = n - 1)),
+                sigma_hat * sqrt((n - 1) / qchisq(alpha / 2, df = n - 1)))
+
+  return(list(mean_ci = mu_ci, sigma_ci = sigma_ci))
+}
 
 
 
