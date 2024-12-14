@@ -3,10 +3,10 @@ Type: Package
 Title: Maximum Likelihood Estimation for Common Probability Distributions
 Version: 0.1.0
 Authors@R: c(
-    person("Bruce", "Liu", email = "first.last@example.com", role = c("aut", "cre")),
+    person("Hanlong", "Chen", email = "first.last@example.com", role = "aut")
+    person("Bruce", "Liu", email = "first.last@example.com", role = "aut"),
     person("Sze Wei", "Wang", email = "first.last@example.com", role = "aut"),
     person("Yanyao", "Gu", email = "first.last@example.com", role = "aut"),
-    person("Hanlong", "Chen", email = "first.last@example.com", role = "aut")
     )
 Description: This package provides functions for estimating parameters using Maximum 
     Likelihood Estimation (MLE) for various probability distributions including 
