@@ -50,26 +50,33 @@ confidence_interval <- function(x, alpha = 0.05) {
   return(list(mean_ci = mu_ci, sigma_ci = sigma_ci))
 }
 
+
+
 # Likelihood Ratio Test Function
 
 normD <- function(x, mu_null=NULL, sigma2_null=NULL, mu_hat=NULL,
                   sigma2_hat=NULL,mu_known=NULL, sigma2_known=NULL,
                   case) {
+
   n <- length(x)
 
 
   if (case == "mean") {
-    # Log-likelihood under H0: mu = mu_null, sigma^2 = sigma2_null
+    # Log-likelihood under H0: mu = mu_null, sigma^2 = sigma2_known
     ll_null <- normll(mu_null, sigma2_known, x)
-    # Log-likelihood under H1: mu = mu_hat, sigma^2 = sigma2_null
+    # Log-likelihood under H1: mu = mu_hat, sigma^2 = sigma2_known
     ll_alt <- normll(mu_hat, sigma2_known, x)
-    df <- 1  # Degrees of freedom: testing one parameter (mu)
+    #testing one parameter (mu)
+    df <- 1
+
   } else if (case == "variance") {
-    # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
+    # Log-likelihood under H0: sigma^2 = sigma2_null, mu_known
     ll_null <- normll(mu_known, sigma2_null, x)
-    # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_null
+    # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_known
     ll_alt <- normll(mu_known, sigma2_hat, x)
-    df <- 1  # Degrees of freedom: testing one parameter (sigma^2)
+    # testing one parameter (sigma^2)
+    df <- 1
+
   } else if (case == "both") {
     # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
     ll_null <- normll(mu_null, sigma2_null, x)
@@ -81,13 +88,13 @@ normD <- function(x, mu_null=NULL, sigma2_null=NULL, mu_hat=NULL,
     stop("Invalid case. Use 'mean' or 'variance'.")
   }
 
-  # Likelihood ratio test statistic
+  # -2(l_0 - l_1)
   test_stat <- -2 * (ll_null - ll_alt)
 
-  # P-value and critical value
+
   p_value <- pchisq(test_stat, df, lower.tail = F)
 
-  # Return results
+
   result <- list(
     test_statistic = test_stat,
     p_value = p_value

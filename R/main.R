@@ -101,7 +101,7 @@ toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
     print(expD(lambda0,lambdahat,data))
   }
   if(dist=="norm"){
-    case <- readline("mean for unknown mu, variance for unknown sigma_square, both for both unknown. Please enter: ")
+    case <- readline("mean for unknown mu but known sigma2, variance for unknown sigma2 but known mu, both for unknown mu and sigma2. Please enter: ")
     if(case=="mean"){
       mu0 <- as.numeric(readline("Please enter the mu0: "))
       muhat <- as.numeric(readline("Please enter the muhat: "))
