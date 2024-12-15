@@ -5,6 +5,10 @@ source("R/Exponential.R")
 source("R/Normal.R")
 source("R/Poisson.R")
 
+#' @param data the dataset to be used
+#' @param dist type of distribution of the dataset
+#' @return likelihood value
+#' @export
 toolsMLE.l <- function(data, dist=c("bin","exp","norm","pois")){
   if(dist=="pois"){
     para <- as.numeric(readline("Please enter the lambda: "))
@@ -26,6 +30,10 @@ toolsMLE.l <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @param data the dataset to be used
+#' @param dist type of distribution of the dataset
+#' @return log-likelihood value
+#' @export
 toolsMLE.ll <- function(data, dist=c("bin","exp","norm","pois")){
   if(dist=="pois"){
     para <- as.numeric(readline("Please enter the lambda: "))
@@ -47,6 +55,10 @@ toolsMLE.ll <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @param data the dataset to be used
+#' @param dist type of distribution of the dataset
+#' @return Maximum Likelihood Estimator
+#' @export
 tools.MLE <- function(data, dist=c("bin","exp","norm","pois")){
   if(dist=="pois"){
     print(poisMLE(data))
@@ -63,6 +75,10 @@ tools.MLE <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @param data the dataset to be used
+#' @param dist type of distribution of the dataset
+#' @return likelihood ratio test statistic and p-value
+#' @export
 toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
   if(dist=="pois"){
     lambda0 <- as.numeric(readline("Please enter the lambda0: "))
