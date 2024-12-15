@@ -50,5 +50,32 @@ confidence_interval <- function(x, alpha = 0.05) {
   return(list(mean_ci = mu_ci, sigma_ci = sigma_ci))
 }
 
+# Likelihood Ratio Test Function
+likelihood_ratio_test <- function(x, mu_null, sigma2_null,mu_hat, sigma2_hat) {
+  # MLE estimates for mu and sigma^2
+  n <- length(x)
+  mu_hat <- mean(x)
+  sigma2_hat <- sum((x - mu_hat)^2) / n
 
+  # Log-likelihood under H0
+  ll_null <- normll(mu_null, sigma2_null, x)
+
+  # Log-likelihood under H1
+  ll_alt <- normll(mu_hat, sigma2_hat, x)
+
+  # Likelihood ratio test statistic
+  test_stat <- -2 * (ll_null - ll_alt)
+
+  df <- 2
+
+  # P-value
+  p_value <- 1 - pchisq(test_stat, df)
+
+  result <- list(
+    test_statistic = test_stat,
+    p_value = p_value,
+  )
+
+  return(result)
+}
 
