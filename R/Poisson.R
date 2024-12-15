@@ -27,7 +27,8 @@ poisS <- function(lambda, x){
 
 # function to find MLE
 poisMLE <- function(x){
-  uniroot(poisS,c(0.000001,max(x)),x=x)
+  lambda <- uniroot(poisS,c(0.000001,max(x)),x=x)$root
+  return(lambda)
 }
 
 # Information function
