@@ -35,7 +35,7 @@ Supported distributions:
 ### Maximum Likelihood Estimation (MLE)
 - **`tools.MLE`**: Estimates the parameters of a specified distribution using MLE.  
 Supports parameter estimation for:
-  - Binomial: Probability of success
+- Binomial: Probability of success
 - Exponential: Rate parameter (λ)
 - Normal: Mean (μ) and variance (σ²)
 - Poisson: Rate parameter (λ)
@@ -49,24 +49,26 @@ Supports hypothesis testing for all included distributions.
 
 
 ## Example
-
+### Compute Likelihood
+```R
 data <- c(1.2, 2.4, 3.6)
-
-Compute Likelihood
 toolsMLE.l(data, dist = "exp") # For Exponential Distribution
+```
 
-Compute Log-Likelihood
+### Compute Log-Likelihood
+```R
 toolsMLE.ll(data, dist = "norm") # For Normal Distribution
+```
 
-Find Maximum Likelihood Estimates
+### Find Maximum Likelihood Estimates
+```R
 tools.MLE(data, dist = "pois") # For Poisson Distribution
+```
 
-Conduct a Likelihood Ratio Test
+### Conduct a Likelihood Ratio Test
+```R
 toolsMLE.lrt(data, dist = "bin") # For Binomial Distribution
-
-
-
-
+```
 
 ## License
 This project is licensed under the MIT License.
