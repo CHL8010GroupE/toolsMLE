@@ -25,18 +25,17 @@ MLE.binoll <- function(p, data, trials){
 }
 
 
+# Score Function
+MLE.binomialS <-function(p, data, trials){
+  sum(data / p - (trials - data) / (1 - p))
+}
+
 # find the optimal MLE function
 MLE.binomial <- function(data, trials) {
   if (any(data > trials)) {
     stop("trials must be greater or equal than data")
   }
-  optimize(MLE.binoll, c(1e-10, 1 - 1e-10), data = data, trials = trials, maximum = TRUE)
-}
-
-
-# Score Function
-MLE.binomialS <-function(p, data, trials){
-  sum(data / p - (trials - data) / (1 - p))
+  uniroot(MLE.binomialS, c(1e-10, 1 - 1e-10), data = data, trials = trials)$root
 }
 
 # Information function
