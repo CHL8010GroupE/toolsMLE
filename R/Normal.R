@@ -69,7 +69,7 @@ likelihood_ratio_test <- function(x, mu_null, sigma2_null,mu_hat, sigma2_hat) {
 
   result <- list(
     test_statistic = test_stat,
-    p_value = p_value,
+    p_value = p_value
   )
 
   return(result)
