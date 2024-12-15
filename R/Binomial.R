@@ -44,6 +44,17 @@ MLE.binomialI <- function(p, data, trials){
   -sum((trials * p  / p^2) + ((trials) * (1 - p) / (1 - p)^2))
 }
 
+# Maximum likelihood function to find p for binomial distribution
+mle_binomial <- function(data, trials) {
+  total_successes <- sum(data)
+  total_trials <- sum(trials)
+
+  # Estimate p as the proportion of successes
+  p_hat <- total_successes / total_trials
+
+  return(list(probability = p_hat))
+}
+
 # Relative Likelihood Function
 MLE.binomialrll <- function(p, phat, data, trials){
   MLE.binoll(p, data, trials) - MLE.binoll(phat, data, trials)

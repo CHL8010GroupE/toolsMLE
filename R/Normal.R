@@ -2,7 +2,7 @@ set.seed(123)
 x <- rnorm(100, mean = 5, sd = 2)
 n <- length(x)
 
-#likelihood
+#Likelihood
 norml <- function(mu, sigma2, x) {
   if (sigma2 <= 0) {
     stop("Variance (sigma2) must be greater than 0.")
