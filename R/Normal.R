@@ -27,13 +27,28 @@ mle_normal <- function(x) {
 }
 
 
-# Likelihood Ratio Function
-likelihood_ratio <- function(mu, sigma2, mu_hat, sigma2_hat, x) {
+# Relative Log-likelihood Function
+normrll <- function(mu, sigma2, mu_hat, sigma2_hat, x) {
   ll_mu_sigma2 <- normll(mu, sigma2, x)  # Log-likelihood for given mu and sigma2
   ll_mu_hat_sigma2_hat <- normll(mu_hat, sigma2_hat, x)  # Log-likelihood for MLE estimates
 
-  ratio <- exp(ll_mu_sigma2 - ll_mu_hat_sigma2_hat)  # Exponentiate the difference to get the ratio
-  return(ratio)
+  return(ll_mu_sigma2 - ll_mu_hat_sigma2_hat)
+}
+
+# Likelihood Interval Function
+normLI <- function(mu_hat, sigma2_hat, x, p, case = c("mean", "variance")){
+  normLIc <- function(mu, sigma2, mu_hat, sigma2_hat, x, p){
+    normrll(mu, sigma2, mu_hat, sigma2_hat, x)-log(p)
+  }
+  if(case=="mean"){
+    lower <- uniroot(normLIc,c(10^(-8),mu_hat),sigma2=sigma2_hat,mu_hat=mu_hat,sigma2_hat=sigma2_hat,x=x,p=p)$root
+    upper <- uniroot(normLIc,c(10^(-8),mu_hat),sigma2=sigma2_hat,mu_hat=mu_hat,sigma2_hat=sigma2_hat,x=x,p=p)$root
+  }
+  if(case=="variance"){
+    lower <- uniroot(normLIc,c(10^(-8),sigma2_hat),mu=mu_hat,mu_hat=mu_hat,sigma2_hat=sigma2_hat,x=x,p=p)$root
+    upper <- uniroot(normLIc,c(10^(-8),sigma2_hat),mu=mu_hat,mu_hat=mu_hat,sigma2_hat=sigma2_hat,x=x,p=p)$root
+  }
+  return(c(lower,upper))
 }
 
 #Confidence interval

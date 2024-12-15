@@ -123,3 +123,32 @@ toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
     }
   }
 }
+
+toolsMLE.LI <- function(data,dist=c("bin","exp","norm","pois",p)){
+  if(dist=="pois"){
+    para <- as.numeric(readline("Please enter the lambdahat: "))
+    print(poisLI(para,data,p))
+  }
+  if(dist=="bin"){
+    para1 <- as.numeric(readline("Please enter the phat: "))
+    para2 <- as.numeric(readline("Please enter the number of trial: "))
+    print(MLE.binomialLI(para1,data,para2,p))
+  }
+  if(dist=="exp"){
+    para <- as.numeric(readline("Please enter the lambdahat: "))
+    print(expLI(para,data,p))
+  }
+  if(dist=="norm"){
+    case <- readline("mean for unknown mu but known sigma2, variance for unknown sigma2 but known mu. Please enter: ")
+    if(case=="mean"){
+      muhat <- as.numeric(readline("Please enter the muhat: "))
+      sigma2 <- as.numeric(readline("Please enter the variance: "))
+      print(normLI(mu_hat = muhat, sigma2_hat = sigma2, data, p, case))
+    }
+    if(case=="variance"){
+      mu <- as.numeric(readline("Please enter the mu: "))
+      sigma2hat <- as.numeric(readline("Please enter the sigma2_hat: "))
+      print(normLI(mu_hat = mu, sigma2_hat = sigma2hat, data, p, case))
+    }
+  }
+}

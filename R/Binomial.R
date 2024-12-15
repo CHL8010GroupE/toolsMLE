@@ -62,14 +62,13 @@ MLE.binomialrll <- function(p, phat, data, trials){
 }
 
 # Function for likelihood intervals
-MLE.binomialLI <- function(data, trials, alpha){
-  estimated <- MLE.binomial(data, trials)$maximum
+MLE.binomialLI <- function(phat, data, trials, alpha){
   MLE.binomialLIc <- function(data, trials, p, phat, alpha){
-    MLE.binomialrll(p, phat, data, trials) - log(1 - alpha)
+    MLE.binomialrll(p, phat, data, trials) - log(alpha)
   }
-  lower <- uniroot(MLE.binomialLIc, c(1e-10, estimated), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+  lower <- uniroot(MLE.binomialLIc, c(1e-10, estimated), phat = phat, data = data, trials = trials, alpha = alpha)$root
 
-  upper <- uniroot(MLE.binomialLIc, c(estimated, 1 - 1e-10), phat = estimated, data = data, trials = trials, alpha = alpha)$root
+  upper <- uniroot(MLE.binomialLIc, c(estimated, 1 - 1e-10), phat = phat, data = data, trials = trials, alpha = alpha)$root
 
   c(lower = lower, upper = upper)
 }
