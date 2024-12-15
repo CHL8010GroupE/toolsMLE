@@ -85,6 +85,6 @@ toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
     muhat <- as.numeric(readline("Please enter the muhat: "))
     sigma20 <- as.numeric(readline("Please enter the sigma_square0: "))
     sigma2hat <- as.numeric(readline("Please enter the sigma_squarehat: "))
-    print(normll(data,mu0,sigma20,muhat,sigma2hat))
+    print(likelihood_ratio_test(data,mu0,sigma20,muhat,sigma2hat))
   }
 }
