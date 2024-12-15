@@ -5,6 +5,7 @@ source("R/Exponential.R")
 source("R/Normal.R")
 source("R/Poisson.R")
 
+#' @title getting likelihood value
 #' @param data the dataset to be used
 #' @param dist type of distribution of the dataset
 #' @return likelihood value
@@ -30,6 +31,7 @@ toolsMLE.l <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @title getting log-likelihood value
 #' @param data the dataset to be used
 #' @param dist type of distribution of the dataset
 #' @return log-likelihood value
@@ -55,6 +57,7 @@ toolsMLE.ll <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @title getting Maximum Likelihood Estimator
 #' @param data the dataset to be used
 #' @param dist type of distribution of the dataset
 #' @return Maximum Likelihood Estimator
@@ -75,6 +78,7 @@ tools.MLE <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
+#' @title conducting likelihood ratio test
 #' @param data the dataset to be used
 #' @param dist type of distribution of the dataset
 #' @return likelihood ratio test statistic and p-value
