@@ -35,7 +35,8 @@ MLE.binomial <- function(data, trials) {
   if (any(data > trials)) {
     stop("trials must be greater or equal than data")
   }
-  uniroot(MLE.binomialS, c(1e-10, 1 - 1e-10), data = data, trials = trials)$root
+  p <- uniroot(MLE.binomialS, c(1e-10, 1 - 1e-10), data = data, trials = trials)$root
+  return(list(p = p))
 }
 
 # Information function
