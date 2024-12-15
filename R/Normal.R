@@ -52,32 +52,25 @@ confidence_interval <- function(x, alpha = 0.05) {
 
 # Likelihood Ratio Test Function
 
-normD <- function(x, mu_null, sigma2_null, mu_hat, sigma_hat,mu_known, sigma_known, case = "mean") {
+normD <- function(x, mu_null=NULL, sigma2_null=NULL, mu_hat=NULL,
+                  sigma2_hat=NULL,mu_known=NULL, sigma2_known=NULL,
+                  case) {
   n <- length(x)
 
 
   if (case == "mean") {
-    if (is.null(mu_null) || is.null(sigma2_null)) {
-      stop("Provide both mu_null and sigma2_null for testing mean.")
-    }
     # Log-likelihood under H0: mu = mu_null, sigma^2 = sigma2_null
-    ll_null <- normll(mu_null, sigma_known, x)
+    ll_null <- normll(mu_null, sigma2_known, x)
     # Log-likelihood under H1: mu = mu_hat, sigma^2 = sigma2_null
-    ll_alt <- normll(mu_hat, sigma_known, x)
+    ll_alt <- normll(mu_hat, sigma2_known, x)
     df <- 1  # Degrees of freedom: testing one parameter (mu)
   } else if (case == "variance") {
-    if (is.null(sigma2_null) || is.null(mu_null)) {
-      stop("Provide both sigma2_null and mu_null for testing variance.")
-    }
     # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
     ll_null <- normll(mu_known, sigma2_null, x)
     # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_null
     ll_alt <- normll(mu_known, sigma2_hat, x)
     df <- 1  # Degrees of freedom: testing one parameter (sigma^2)
   } else if (case == "both") {
-    if (is.null(sigma2_null) || is.null(mu_null)) {
-      stop("Provide both sigma2_null and mu_null for testing variance.")
-    }
     # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
     ll_null <- normll(mu_null, sigma2_null, x)
     # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_hat
@@ -92,7 +85,7 @@ normD <- function(x, mu_null, sigma2_null, mu_hat, sigma_hat,mu_known, sigma_kno
   test_stat <- -2 * (ll_null - ll_alt)
 
   # P-value and critical value
-  p_value <- 1 - pchisq(test_stat, df)
+  p_value <- pchisq(test_stat, df, lower.tail = F)
 
   # Return results
   result <- list(

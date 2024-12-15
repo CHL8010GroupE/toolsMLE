@@ -81,10 +81,25 @@ toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
     print(expD(lambda0,lambdahat,data))
   }
   if(dist=="norm"){
-    mu0 <- as.numeric(readline("Please enter the mu0: "))
-    muhat <- as.numeric(readline("Please enter the muhat: "))
-    sigma20 <- as.numeric(readline("Please enter the sigma_square0: "))
-    sigma2hat <- as.numeric(readline("Please enter the sigma_squarehat: "))
-    print(likelihood_ratio_test(data,mu0,sigma20,muhat,sigma2hat))
+    case <- readline("mean for unknown mu, variance for unknown sigma_square, both for both unknown. Please enter: ")
+    if(case=="mean"){
+      mu0 <- as.numeric(readline("Please enter the mu0: "))
+      muhat <- as.numeric(readline("Please enter the muhat: "))
+      sigma2 <- as.numeric(readline("Please enter the variance: "))
+      print(normD(data,mu_null=mu0,mu_hat=muhat,sigma2_known=sigma2,case=case))
+    }
+    if(case=="variance"){
+      sigma20 <- as.numeric(readline("Please enter the sigma_square0: "))
+      sigma2hat <- as.numeric(readline("Please enter the sigma_squarehat: "))
+      mu <- as.numeric(readline("Please enter the mu: "))
+      print(normD(data,sigma2_null=sigma20,sigma2_hat=sigma2hat,mu_known=mu,case=case))
+    }
+    if(case=="both"){
+      mu0 <- as.numeric(readline("Please enter the mu0: "))
+      muhat <- as.numeric(readline("Please enter the muhat: "))
+      sigma20 <- as.numeric(readline("Please enter the sigma_square0: "))
+      sigma2hat <- as.numeric(readline("Please enter the sigma_squarehat: "))
+      print(normD(data,mu_null=mu0,mu_hat=muhat,sigma2_null=sigma20,sigma2_hat=sigma2hat,case=case))
+    }
   }
 }
