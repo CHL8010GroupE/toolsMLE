@@ -63,7 +63,7 @@ tools.MLE <- function(data, dist=c("bin","exp","norm","pois")){
   }
 }
 
-toolsMLE.lrt <- funtion(data, dist=c("bin","exp","norm","pois")){
+toolsMLE.lrt <- function(data, dist=c("bin","exp","norm","pois")){
   if(dist=="pois"){
     lambda0 <- as.numeric(readline("Please enter the lambda0: "))
     lambdahat <- as.numeric(readline("Please enter the lambdahat: "))
