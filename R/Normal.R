@@ -51,22 +51,53 @@ confidence_interval <- function(x, alpha = 0.05) {
 }
 
 # Likelihood Ratio Test Function
-likelihood_ratio_test <- function(x, mu_null, sigma2_null,mu_hat, sigma2_hat) {
 
-  # Log-likelihood under H0
-  ll_null <- normll(mu_null, sigma2_null, x)
+normD <- function(x, mu_null = NULL, sigma2_null = NULL, case = "mean") {
+  n <- length(x)
 
-  # Log-likelihood under H1
-  ll_alt <- normll(mu_hat, sigma2_hat, x)
+  # MLE estimates
+  mu_hat <- mean(x)
+  sigma2_hat <- sum((x - mu_hat)^2) / n
+
+  if (case == "mean") {
+    if (is.null(mu_null) || is.null(sigma2_null)) {
+      stop("Provide both mu_null and sigma2_null for testing mean.")
+    }
+    # Log-likelihood under H0: mu = mu_null, sigma^2 = sigma2_null
+    ll_null <- normll(mu_null, sigma2_null, x)
+    # Log-likelihood under H1: mu = mu_hat, sigma^2 = sigma2_null
+    ll_alt <- normll(mu_hat, sigma2_null, x)
+    df <- 1  # Degrees of freedom: testing one parameter (mu)
+  } else if (case == "variance") {
+    if (is.null(sigma2_null) || is.null(mu_null)) {
+      stop("Provide both sigma2_null and mu_null for testing variance.")
+    }
+    # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
+    ll_null <- normll(mu_null, sigma2_null, x)
+    # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_null
+    ll_alt <- normll(mu_null, sigma2_hat, x)
+    df <- 1  # Degrees of freedom: testing one parameter (sigma^2)
+  } else if (case == "both") {
+    if (is.null(sigma2_null) || is.null(mu_null)) {
+      stop("Provide both sigma2_null and mu_null for testing variance.")
+    }
+    # Log-likelihood under H0: sigma^2 = sigma2_null, mu = mu_null
+    ll_null <- normll(mu_null, sigma2_null, x)
+    # Log-likelihood under H1: sigma^2 = sigma2_hat, mu = mu_hat
+    ll_alt <- normll(mu_hat, sigma2_hat, x)
+    df <- 2
+  }
+  else {
+    stop("Invalid case. Use 'mean' or 'variance'.")
+  }
 
   # Likelihood ratio test statistic
   test_stat <- -2 * (ll_null - ll_alt)
 
-  df <- 2
-
-  # P-value
+  # P-value and critical value
   p_value <- 1 - pchisq(test_stat, df)
 
+  # Return results
   result <- list(
     test_statistic = test_stat,
     p_value = p_value
@@ -74,4 +105,5 @@ likelihood_ratio_test <- function(x, mu_null, sigma2_null,mu_hat, sigma2_hat) {
 
   return(result)
 }
+
 
