@@ -51,11 +51,7 @@ confidence_interval <- function(x, alpha = 0.05) {
 }
 
 # Likelihood Ratio Test Function
-likelihood_ratio_test <- function(x, mu_null, sigma2_null) {
-  # MLE estimates for mu and sigma^2
-  n <- length(x)
-  mu_hat <- mean(x)
-  sigma2_hat <- sum((x - mu_hat)^2) / n
+likelihood_ratio_test <- function(x, mu_null, sigma2_null,mu_hat, sigma2_hat) {
 
   # Log-likelihood under H0
   ll_null <- normll(mu_null, sigma2_null, x)
