@@ -42,6 +42,26 @@ expS <- function(lambda, x) {
   n / lambda - sum_x
 }
 
+#MLE
+mle_exp <- function(x){
+  result <- uniroot(expS,c(0.000001,max(x)),x=x)$root
+  return(result)
+}
+
+
+#
+mle_exponential <- function(data) {
+  if (any(data < 0)) {
+    stop("Data must be non-negative for the exponential distribution.")
+  }
+
+  # Estimate lambda as the reciprocal of the mean
+  lambda_hat <- 1 / mean(data)
+
+  return(list(rate = lambda_hat))
+}
+
+
 # Information function
 expI <- function(lambda, x) {
   if (lambda <= 0) {
