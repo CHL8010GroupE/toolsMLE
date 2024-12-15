@@ -75,7 +75,7 @@ MLE.binomialLI <- function(data, trials, alpha){
 }
 
 # Likelihood Ratio Test
-MLE.binomialD <- function(data, trials, p_test){
+MLE.binomialD <- function(data, trials, p_test, p_hat){
   if (p_test < 0 || p_test > 1){
     stop("p-test must be within (0, 1)")
   }
@@ -83,11 +83,8 @@ MLE.binomialD <- function(data, trials, p_test){
   # generate log likelihood for null, p_test
   log_test <- MLE.binoll(p_test, data, trials)
 
-  # generate log likelihood for p_alter
-  estimated_parameter <- MLE.binomial(data, trials)
-
-
-  log_alter <- estimated_parameter$objective
+  # generate log likelihood for alter, p_hat
+  log_alter <- MLE.binoll(p_hat, data, trials)
 
   # generate the likelihood ratio
   lR_statistic <- 2 * (log_alter - log_test)
@@ -95,7 +92,7 @@ MLE.binomialD <- function(data, trials, p_test){
   # assume degree of freedom is 1
   p_value <- pchisq(lR_statistic, df = 1, lower.tail = FALSE)
 
-  p_value
+  return(list(D=lR_statistic,p_value=p_value))
 
 }
 

@@ -64,7 +64,9 @@ poisD <- function(lambda, lambdahat, x){
   if(lambda<=0){stop("Lambda must be greater than 0.")}
   if(lambdahat<=0){stop("Lambdahat must be greater than 0.")}
   if(any(x<0)){stop("There is at least one negative value in the dataset.")}
-  -2*poisrll(lambda,lambdahat,x)
+  D <- -2*poisrll(lambda,lambdahat,x)
+  pvalue <- pchisq(D, df = 1, lower.tail = FALSE)
+  return(list(D=D,p_value=pvalue))
 }
 
 # confidence interval based on likelihood ratio statistic

@@ -101,7 +101,9 @@ expD <- function(lambda, lambdahat, x) {
   if (any(x < 0)) {
     stop("There is at least one negative value in the dataset.")
   }
-  -2 * exprll(lambda, lambdahat, x)
+  D <- -2 * exprll(lambda, lambdahat, x)
+  pvalue <- pchisq(D, df = 1, lower.tail = FALSE)
+  return(list(D=D,p_value=pvalue))
 }
 
 # Confidence interval based on likelihood ratio statistic

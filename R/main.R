@@ -62,3 +62,29 @@ tools.MLE <- function(data, dist=c("bin","exp","norm","pois")){
     print(mle_normal(data))
   }
 }
+
+toolsMLE.lrt <- funtion(data, dist=c("bin","exp","norm","pois")){
+  if(dist=="pois"){
+    lambda0 <- as.numeric(readline("Please enter the lambda0: "))
+    lambdahat <- as.numeric(readline("Please enter the lambdahat: "))
+    print(poisD(lambda0,lambdahat,data))
+  }
+  if(dist=="bin"){
+    trials <- as.numeric(readline("Please enter the number of trial: "))
+    p0 <- as.numeric(readline("Please enter the p0: "))
+    phat <- as.numeric(readline("Please enter the phat: "))
+    print(MLE.binomialD(data,trails,p0,phat))
+  }
+  if(dist=="exp"){
+    lambda0 <- as.numeric(readline("Please enter the lambda0: "))
+    lambdahat <- as.numeric(readline("Please enter the lambdahat: "))
+    print(expD(lambda0,lambdahat,data))
+  }
+  if(dist=="norm"){
+    mu0 <- as.numeric(readline("Please enter the mu0: "))
+    muhat <- as.numeric(readline("Please enter the muhat: "))
+    sigma20 <- as.numeric(readline("Please enter the sigma_square0: "))
+    sigma2hat <- as.numeric(readline("Please enter the sigma_squarehat: "))
+    print(normll(data,mu0,sigma20,muhat,sigma2hat))
+  }
+}
